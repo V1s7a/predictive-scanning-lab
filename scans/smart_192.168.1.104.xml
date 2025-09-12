@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.95 scan initiated Thu Sep 11 22:29:09 2025 as: /usr/lib/nmap/nmap -&#45;privileged -sS -Pn -n -&#45;max-retries 2 -p 22,53,80,88,110,135,139,143,389,464,593,636,3268,3269,3306,3389,5985,9389 -oX /home/kali/predictive-scanning-lab/scans/smart_192.168.1.104.xml 192.168.1.104 -->
+<nmaprun scanner="nmap" args="/usr/lib/nmap/nmap -&#45;privileged -sS -Pn -n -&#45;max-retries 2 -p 22,53,80,88,110,135,139,143,389,464,593,636,3268,3269,3306,3389,5985,9389 -oX /home/kali/predictive-scanning-lab/scans/smart_192.168.1.104.xml 192.168.1.104" start="1757644149" startstr="Thu Sep 11 22:29:09 2025" version="7.95" xmloutputversion="1.05">
+<scaninfo type="syn" protocol="tcp" numservices="18" services="22,53,80,88,110,135,139,143,389,464,593,636,3268-3269,3306,3389,5985,9389"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<hosthint><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="192.168.1.104" addrtype="ipv4"/>
+<address addr="BC:24:11:FC:2B:FA" addrtype="mac" vendor="Proxmox Server Solutions GmbH"/>
+<hostnames>
+</hostnames>
+</hosthint>
+<host starttime="1757644149" endtime="1757644149"><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="192.168.1.104" addrtype="ipv4"/>
+<address addr="BC:24:11:FC:2B:FA" addrtype="mac" vendor="Proxmox Server Solutions GmbH"/>
+<hostnames>
+</hostnames>
+<ports><port protocol="tcp" portid="22"><state state="closed" reason="reset" reason_ttl="128"/><service name="ssh" method="table" conf="3"/></port>
+<port protocol="tcp" portid="53"><state state="open" reason="syn-ack" reason_ttl="128"/><service name="domain" method="table" conf="3"/></port>
+<port protocol="tcp" portid="80"><state state="closed" reason="reset" reason_ttl="128"/><service name="http" method="table" conf="3"/></port>
+<port protocol="tcp" portid="88"><state state="open" reason="syn-ack" reason_ttl="128"/><service name="kerberos-sec" method="table" conf="3"/></port>
+<port protocol="tcp" portid="110"><state state="closed" reason="reset" reason_ttl="128"/><service name="pop3" method="table" conf="3"/></port>
+<port protocol="tcp" portid="135"><state state="open" reason="syn-ack" reason_ttl="128"/><service name="msrpc" method="table" conf="3"/></port>
+<port protocol="tcp" portid="139"><state state="open" reason="syn-ack" reason_ttl="128"/><service name="netbios-ssn" method="table" conf="3"/></port>
+<port protocol="tcp" portid="143"><state state="closed" reason="reset" reason_ttl="128"/><service name="imap" method="table" conf="3"/></port>
+<port protocol="tcp" portid="389"><state state="open" reason="syn-ack" reason_ttl="128"/><service name="ldap" method="table" conf="3"/></port>
+<port protocol="tcp" portid="464"><state state="open" reason="syn-ack" reason_ttl="128"/><service name="kpasswd5" method="table" conf="3"/></port>
+<port protocol="tcp" portid="593"><state state="open" reason="syn-ack" reason_ttl="128"/><service name="http-rpc-epmap" method="table" conf="3"/></port>
+<port protocol="tcp" portid="636"><state state="open" reason="syn-ack" reason_ttl="128"/><service name="ldapssl" method="table" conf="3"/></port>
+<port protocol="tcp" portid="3268"><state state="open" reason="syn-ack" reason_ttl="128"/><service name="globalcatLDAP" method="table" conf="3"/></port>
+<port protocol="tcp" portid="3269"><state state="open" reason="syn-ack" reason_ttl="128"/><service name="globalcatLDAPssl" method="table" conf="3"/></port>
+<port protocol="tcp" portid="3306"><state state="closed" reason="reset" reason_ttl="128"/><service name="mysql" method="table" conf="3"/></port>
+<port protocol="tcp" portid="3389"><state state="open" reason="syn-ack" reason_ttl="128"/><service name="ms-wbt-server" method="table" conf="3"/></port>
+<port protocol="tcp" portid="5985"><state state="open" reason="syn-ack" reason_ttl="128"/><service name="wsman" method="table" conf="3"/></port>
+<port protocol="tcp" portid="9389"><state state="open" reason="syn-ack" reason_ttl="128"/><service name="adws" method="table" conf="3"/></port>
+</ports>
+<times srtt="119" rttvar="50" to="100000"/>
+</host>
+<runstats><finished time="1757644149" timestr="Thu Sep 11 22:29:09 2025" summary="Nmap done at Thu Sep 11 22:29:09 2025; 1 IP address (1 host up) scanned in 0.20 seconds" elapsed="0.20" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

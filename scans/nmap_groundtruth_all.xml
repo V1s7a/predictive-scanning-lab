@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE nmaprun>
 <?xml-stylesheet href="file:///usr/share/nmap/nmap.xsl" type="text/xsl"?>
-<!-- Nmap 7.95 scan initiated Thu Sep 11 19:56:23 2025 as: /usr/lib/nmap/nmap -&#45;privileged -sS -sV -Pn -p22,25,53,80,110,143,443,445,587,993,995,3306,3389 -iL targets/targets.txt -oX scans/nmap_groundtruth_all.xml -->
-<nmaprun scanner="nmap" args="/usr/lib/nmap/nmap -&#45;privileged -sS -sV -Pn -p22,25,53,80,110,143,443,445,587,993,995,3306,3389 -iL targets/targets.txt -oX scans/nmap_groundtruth_all.xml" start="1757634983" startstr="Thu Sep 11 19:56:23 2025" version="7.95" xmloutputversion="1.05">
-<scaninfo type="syn" protocol="tcp" numservices="13" services="22,25,53,80,110,143,443,445,587,993,995,3306,3389"/>
+<!-- Nmap 7.95 scan initiated Thu Sep 11 22:02:35 2025 as: /usr/lib/nmap/nmap -&#45;privileged -sS -sV -Pn -p22,25,53,80,110,143,443,445,587,593,636,3268,3269,389,88,464,135,139,3306,3389,9389,5985 -iL targets/targets.txt -oX scans/nmap_groundtruth_all.xml -->
+<nmaprun scanner="nmap" args="/usr/lib/nmap/nmap -&#45;privileged -sS -sV -Pn -p22,25,53,80,110,143,443,445,587,593,636,3268,3269,389,88,464,135,139,3306,3389,9389,5985 -iL targets/targets.txt -oX scans/nmap_groundtruth_all.xml" start="1757642555" startstr="Thu Sep 11 22:02:35 2025" version="7.95" xmloutputversion="1.05">
+<scaninfo type="syn" protocol="tcp" numservices="22" services="22,25,53,80,88,110,135,139,143,389,443,445,464,587,593,636,3268-3269,3306,3389,5985,9389"/>
 <verbose level="0"/>
 <debugging level="0"/>
-<hosthint><status state="up" reason="arp-response" reason_ttl="0"/>
-<address addr="192.168.1.103" addrtype="ipv4"/>
-<address addr="BC:24:11:F0:38:E3" addrtype="mac" vendor="Proxmox Server Solutions GmbH"/>
-<hostnames>
-</hostnames>
-</hosthint>
 <hosthint><status state="up" reason="arp-response" reason_ttl="0"/>
 <address addr="192.168.1.102" addrtype="ipv4"/>
 <address addr="BC:24:11:7F:93:E4" addrtype="mac" vendor="Proxmox Server Solutions GmbH"/>
@@ -24,7 +18,19 @@
 <hostnames>
 </hostnames>
 </hosthint>
-<host starttime="1757634983" endtime="1757634995"><status state="up" reason="arp-response" reason_ttl="0"/>
+<hosthint><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="192.168.1.104" addrtype="ipv4"/>
+<address addr="BC:24:11:FC:2B:FA" addrtype="mac" vendor="Proxmox Server Solutions GmbH"/>
+<hostnames>
+</hostnames>
+</hosthint>
+<hosthint><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="192.168.1.103" addrtype="ipv4"/>
+<address addr="BC:24:11:F0:38:E3" addrtype="mac" vendor="Proxmox Server Solutions GmbH"/>
+<hostnames>
+</hostnames>
+</hosthint>
+<host starttime="1757642555" endtime="1757642561"><status state="up" reason="arp-response" reason_ttl="0"/>
 <address addr="192.168.1.101" addrtype="ipv4"/>
 <address addr="BC:24:11:BA:EA:12" addrtype="mac" vendor="Proxmox Server Solutions GmbH"/>
 <hostnames>
@@ -33,19 +39,28 @@
 <port protocol="tcp" portid="25"><state state="closed" reason="reset" reason_ttl="64"/><service name="smtp" method="table" conf="3"/></port>
 <port protocol="tcp" portid="53"><state state="open" reason="syn-ack" reason_ttl="64"/><service name="domain" product="ISC BIND" version="9.20.11-0ubuntu0.1" extrainfo="Ubuntu Linux" ostype="Linux" method="probed" conf="10"><cpe>cpe:/a:isc:bind:9.20.11-0ubuntu0.1</cpe><cpe>cpe:/o:linux:linux_kernel</cpe></service></port>
 <port protocol="tcp" portid="80"><state state="open" reason="syn-ack" reason_ttl="64"/><service name="http" product="nginx" version="1.26.3" extrainfo="Ubuntu" ostype="Linux" method="probed" conf="10"><cpe>cpe:/a:igor_sysoev:nginx:1.26.3</cpe><cpe>cpe:/o:linux:linux_kernel</cpe></service></port>
+<port protocol="tcp" portid="88"><state state="closed" reason="reset" reason_ttl="64"/><service name="kerberos-sec" method="table" conf="3"/></port>
 <port protocol="tcp" portid="110"><state state="closed" reason="reset" reason_ttl="64"/><service name="pop3" method="table" conf="3"/></port>
+<port protocol="tcp" portid="135"><state state="closed" reason="reset" reason_ttl="64"/><service name="msrpc" method="table" conf="3"/></port>
+<port protocol="tcp" portid="139"><state state="closed" reason="reset" reason_ttl="64"/><service name="netbios-ssn" method="table" conf="3"/></port>
 <port protocol="tcp" portid="143"><state state="closed" reason="reset" reason_ttl="64"/><service name="imap" method="table" conf="3"/></port>
+<port protocol="tcp" portid="389"><state state="closed" reason="reset" reason_ttl="64"/><service name="ldap" method="table" conf="3"/></port>
 <port protocol="tcp" portid="443"><state state="closed" reason="reset" reason_ttl="64"/><service name="https" method="table" conf="3"/></port>
 <port protocol="tcp" portid="445"><state state="closed" reason="reset" reason_ttl="64"/><service name="microsoft-ds" method="table" conf="3"/></port>
+<port protocol="tcp" portid="464"><state state="closed" reason="reset" reason_ttl="64"/><service name="kpasswd5" method="table" conf="3"/></port>
 <port protocol="tcp" portid="587"><state state="closed" reason="reset" reason_ttl="64"/><service name="submission" method="table" conf="3"/></port>
-<port protocol="tcp" portid="993"><state state="closed" reason="reset" reason_ttl="64"/><service name="imaps" method="table" conf="3"/></port>
-<port protocol="tcp" portid="995"><state state="closed" reason="reset" reason_ttl="64"/><service name="pop3s" method="table" conf="3"/></port>
+<port protocol="tcp" portid="593"><state state="closed" reason="reset" reason_ttl="64"/><service name="http-rpc-epmap" method="table" conf="3"/></port>
+<port protocol="tcp" portid="636"><state state="closed" reason="reset" reason_ttl="64"/><service name="ldapssl" method="table" conf="3"/></port>
+<port protocol="tcp" portid="3268"><state state="closed" reason="reset" reason_ttl="64"/><service name="globalcatLDAP" method="table" conf="3"/></port>
+<port protocol="tcp" portid="3269"><state state="closed" reason="reset" reason_ttl="64"/><service name="globalcatLDAPssl" method="table" conf="3"/></port>
 <port protocol="tcp" portid="3306"><state state="open" reason="syn-ack" reason_ttl="64"/><service name="mysql" product="MariaDB" version="10.3.23 or earlier" extrainfo="unauthorized" method="probed" conf="10"><cpe>cpe:/a:mariadb:mariadb</cpe></service></port>
 <port protocol="tcp" portid="3389"><state state="closed" reason="reset" reason_ttl="64"/><service name="ms-wbt-server" method="table" conf="3"/></port>
+<port protocol="tcp" portid="5985"><state state="closed" reason="reset" reason_ttl="64"/><service name="wsman" method="table" conf="3"/></port>
+<port protocol="tcp" portid="9389"><state state="closed" reason="reset" reason_ttl="64"/><service name="adws" method="table" conf="3"/></port>
 </ports>
-<times srtt="101" rttvar="197" to="100000"/>
+<times srtt="84" rttvar="19" to="100000"/>
 </host>
-<host starttime="1757634983" endtime="1757634995"><status state="up" reason="arp-response" reason_ttl="0"/>
+<host starttime="1757642555" endtime="1757642561"><status state="up" reason="arp-response" reason_ttl="0"/>
 <address addr="192.168.1.102" addrtype="ipv4"/>
 <address addr="BC:24:11:7F:93:E4" addrtype="mac" vendor="Proxmox Server Solutions GmbH"/>
 <hostnames>
@@ -54,19 +69,28 @@
 <port protocol="tcp" portid="25"><state state="closed" reason="reset" reason_ttl="128"/><service name="smtp" method="table" conf="3"/></port>
 <port protocol="tcp" portid="53"><state state="closed" reason="reset" reason_ttl="128"/><service name="domain" method="table" conf="3"/></port>
 <port protocol="tcp" portid="80"><state state="closed" reason="reset" reason_ttl="128"/><service name="http" method="table" conf="3"/></port>
+<port protocol="tcp" portid="88"><state state="closed" reason="reset" reason_ttl="128"/><service name="kerberos-sec" method="table" conf="3"/></port>
 <port protocol="tcp" portid="110"><state state="closed" reason="reset" reason_ttl="128"/><service name="pop3" method="table" conf="3"/></port>
+<port protocol="tcp" portid="135"><state state="open" reason="syn-ack" reason_ttl="128"/><service name="msrpc" product="Microsoft Windows RPC" ostype="Windows" method="probed" conf="10"><cpe>cpe:/o:microsoft:windows</cpe></service></port>
+<port protocol="tcp" portid="139"><state state="open" reason="syn-ack" reason_ttl="128"/><service name="netbios-ssn" product="Microsoft Windows netbios-ssn" ostype="Windows" method="probed" conf="10"><cpe>cpe:/o:microsoft:windows</cpe></service></port>
 <port protocol="tcp" portid="143"><state state="closed" reason="reset" reason_ttl="128"/><service name="imap" method="table" conf="3"/></port>
+<port protocol="tcp" portid="389"><state state="closed" reason="reset" reason_ttl="128"/><service name="ldap" method="table" conf="3"/></port>
 <port protocol="tcp" portid="443"><state state="closed" reason="reset" reason_ttl="128"/><service name="https" method="table" conf="3"/></port>
 <port protocol="tcp" portid="445"><state state="open" reason="syn-ack" reason_ttl="128"/><service name="microsoft-ds" method="table" conf="3"/></port>
+<port protocol="tcp" portid="464"><state state="closed" reason="reset" reason_ttl="128"/><service name="kpasswd5" method="table" conf="3"/></port>
 <port protocol="tcp" portid="587"><state state="closed" reason="reset" reason_ttl="128"/><service name="submission" method="table" conf="3"/></port>
-<port protocol="tcp" portid="993"><state state="closed" reason="reset" reason_ttl="128"/><service name="imaps" method="table" conf="3"/></port>
-<port protocol="tcp" portid="995"><state state="closed" reason="reset" reason_ttl="128"/><service name="pop3s" method="table" conf="3"/></port>
+<port protocol="tcp" portid="593"><state state="closed" reason="reset" reason_ttl="128"/><service name="http-rpc-epmap" method="table" conf="3"/></port>
+<port protocol="tcp" portid="636"><state state="closed" reason="reset" reason_ttl="128"/><service name="ldapssl" method="table" conf="3"/></port>
+<port protocol="tcp" portid="3268"><state state="closed" reason="reset" reason_ttl="128"/><service name="globalcatLDAP" method="table" conf="3"/></port>
+<port protocol="tcp" portid="3269"><state state="closed" reason="reset" reason_ttl="128"/><service name="globalcatLDAPssl" method="table" conf="3"/></port>
 <port protocol="tcp" portid="3306"><state state="closed" reason="reset" reason_ttl="128"/><service name="mysql" method="table" conf="3"/></port>
 <port protocol="tcp" portid="3389"><state state="open" reason="syn-ack" reason_ttl="128"/><service name="ms-wbt-server" product="Microsoft Terminal Services" ostype="Windows" method="probed" conf="10"><cpe>cpe:/o:microsoft:windows</cpe></service></port>
+<port protocol="tcp" portid="5985"><state state="open" reason="syn-ack" reason_ttl="128"/><service name="http" product="Microsoft HTTPAPI httpd" version="2.0" extrainfo="SSDP/UPnP" ostype="Windows" method="probed" conf="10"><cpe>cpe:/o:microsoft:windows</cpe></service></port>
+<port protocol="tcp" portid="9389"><state state="closed" reason="reset" reason_ttl="128"/><service name="adws" method="table" conf="3"/></port>
 </ports>
-<times srtt="121" rttvar="178" to="100000"/>
+<times srtt="101" rttvar="35" to="100000"/>
 </host>
-<host starttime="1757634983" endtime="1757634995"><status state="up" reason="arp-response" reason_ttl="0"/>
+<host starttime="1757642555" endtime="1757642561"><status state="up" reason="arp-response" reason_ttl="0"/>
 <address addr="192.168.1.103" addrtype="ipv4"/>
 <address addr="BC:24:11:F0:38:E3" addrtype="mac" vendor="Proxmox Server Solutions GmbH"/>
 <hostnames>
@@ -75,18 +99,57 @@
 <port protocol="tcp" portid="25"><state state="open" reason="syn-ack" reason_ttl="64"/><service name="smtp" product="Postfix smtpd" hostname=" ubuntu2.home.arpa" method="probed" conf="10"><cpe>cpe:/a:postfix:postfix</cpe></service></port>
 <port protocol="tcp" portid="53"><state state="closed" reason="reset" reason_ttl="64"/><service name="domain" method="table" conf="3"/></port>
 <port protocol="tcp" portid="80"><state state="closed" reason="reset" reason_ttl="64"/><service name="http" method="table" conf="3"/></port>
+<port protocol="tcp" portid="88"><state state="closed" reason="reset" reason_ttl="64"/><service name="kerberos-sec" method="table" conf="3"/></port>
 <port protocol="tcp" portid="110"><state state="open" reason="syn-ack" reason_ttl="64"/><service name="pop3" product="Dovecot pop3d" method="probed" conf="10"><cpe>cpe:/a:dovecot:dovecot</cpe></service></port>
+<port protocol="tcp" portid="135"><state state="closed" reason="reset" reason_ttl="64"/><service name="msrpc" method="table" conf="3"/></port>
+<port protocol="tcp" portid="139"><state state="closed" reason="reset" reason_ttl="64"/><service name="netbios-ssn" method="table" conf="3"/></port>
 <port protocol="tcp" portid="143"><state state="open" reason="syn-ack" reason_ttl="64"/><service name="imap" product="Dovecot imapd" extrainfo="Ubuntu" ostype="Linux" method="probed" conf="10"><cpe>cpe:/a:dovecot:dovecot</cpe><cpe>cpe:/o:linux:linux_kernel</cpe></service></port>
+<port protocol="tcp" portid="389"><state state="closed" reason="reset" reason_ttl="64"/><service name="ldap" method="table" conf="3"/></port>
 <port protocol="tcp" portid="443"><state state="closed" reason="reset" reason_ttl="64"/><service name="https" method="table" conf="3"/></port>
 <port protocol="tcp" portid="445"><state state="closed" reason="reset" reason_ttl="64"/><service name="microsoft-ds" method="table" conf="3"/></port>
+<port protocol="tcp" portid="464"><state state="closed" reason="reset" reason_ttl="64"/><service name="kpasswd5" method="table" conf="3"/></port>
 <port protocol="tcp" portid="587"><state state="closed" reason="reset" reason_ttl="64"/><service name="submission" method="table" conf="3"/></port>
-<port protocol="tcp" portid="993"><state state="open" reason="syn-ack" reason_ttl="64"/><service name="imap" product="Dovecot imapd" extrainfo="Ubuntu" ostype="Linux" tunnel="ssl" method="probed" conf="10"><cpe>cpe:/a:dovecot:dovecot</cpe><cpe>cpe:/o:linux:linux_kernel</cpe></service></port>
-<port protocol="tcp" portid="995"><state state="open" reason="syn-ack" reason_ttl="64"/><service name="pop3" product="Dovecot pop3d" tunnel="ssl" method="probed" conf="10"><cpe>cpe:/a:dovecot:dovecot</cpe></service></port>
+<port protocol="tcp" portid="593"><state state="closed" reason="reset" reason_ttl="64"/><service name="http-rpc-epmap" method="table" conf="3"/></port>
+<port protocol="tcp" portid="636"><state state="closed" reason="reset" reason_ttl="64"/><service name="ldapssl" method="table" conf="3"/></port>
+<port protocol="tcp" portid="3268"><state state="closed" reason="reset" reason_ttl="64"/><service name="globalcatLDAP" method="table" conf="3"/></port>
+<port protocol="tcp" portid="3269"><state state="closed" reason="reset" reason_ttl="64"/><service name="globalcatLDAPssl" method="table" conf="3"/></port>
 <port protocol="tcp" portid="3306"><state state="closed" reason="reset" reason_ttl="64"/><service name="mysql" method="table" conf="3"/></port>
 <port protocol="tcp" portid="3389"><state state="closed" reason="reset" reason_ttl="64"/><service name="ms-wbt-server" method="table" conf="3"/></port>
+<port protocol="tcp" portid="5985"><state state="closed" reason="reset" reason_ttl="64"/><service name="wsman" method="table" conf="3"/></port>
+<port protocol="tcp" portid="9389"><state state="closed" reason="reset" reason_ttl="64"/><service name="adws" method="table" conf="3"/></port>
 </ports>
-<times srtt="94" rttvar="185" to="100000"/>
+<times srtt="81" rttvar="31" to="100000"/>
 </host>
-<runstats><finished time="1757634995" timestr="Thu Sep 11 19:56:35 2025" summary="Nmap done at Thu Sep 11 19:56:35 2025; 3 IP addresses (3 hosts up) scanned in 12.49 seconds" elapsed="12.49" exit="success"/><hosts up="3" down="0" total="3"/>
+<host starttime="1757642555" endtime="1757642561"><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="192.168.1.104" addrtype="ipv4"/>
+<address addr="BC:24:11:FC:2B:FA" addrtype="mac" vendor="Proxmox Server Solutions GmbH"/>
+<hostnames>
+</hostnames>
+<ports><port protocol="tcp" portid="22"><state state="closed" reason="reset" reason_ttl="128"/><service name="ssh" method="table" conf="3"/></port>
+<port protocol="tcp" portid="25"><state state="closed" reason="reset" reason_ttl="128"/><service name="smtp" method="table" conf="3"/></port>
+<port protocol="tcp" portid="53"><state state="open" reason="syn-ack" reason_ttl="128"/><service name="domain" product="Simple DNS Plus" ostype="Windows" method="probed" conf="10"><cpe>cpe:/a:jh_software:simple_dns_plus</cpe><cpe>cpe:/o:microsoft:windows</cpe></service></port>
+<port protocol="tcp" portid="80"><state state="closed" reason="reset" reason_ttl="128"/><service name="http" method="table" conf="3"/></port>
+<port protocol="tcp" portid="88"><state state="open" reason="syn-ack" reason_ttl="128"/><service name="kerberos-sec" product="Microsoft Windows Kerberos" extrainfo="server time: 2025-09-12 02:02:40Z" ostype="Windows" method="probed" conf="10"><cpe>cpe:/a:microsoft:kerberos</cpe><cpe>cpe:/o:microsoft:windows</cpe></service></port>
+<port protocol="tcp" portid="110"><state state="closed" reason="reset" reason_ttl="128"/><service name="pop3" method="table" conf="3"/></port>
+<port protocol="tcp" portid="135"><state state="open" reason="syn-ack" reason_ttl="128"/><service name="msrpc" product="Microsoft Windows RPC" ostype="Windows" method="probed" conf="10"><cpe>cpe:/o:microsoft:windows</cpe></service></port>
+<port protocol="tcp" portid="139"><state state="open" reason="syn-ack" reason_ttl="128"/><service name="netbios-ssn" product="Microsoft Windows netbios-ssn" ostype="Windows" method="probed" conf="10"><cpe>cpe:/o:microsoft:windows</cpe></service></port>
+<port protocol="tcp" portid="143"><state state="closed" reason="reset" reason_ttl="128"/><service name="imap" method="table" conf="3"/></port>
+<port protocol="tcp" portid="389"><state state="open" reason="syn-ack" reason_ttl="128"/><service name="ldap" product="Microsoft Windows Active Directory LDAP" extrainfo="Domain: lab.local0., Site: Default-First-Site-Name" hostname="DC01" ostype="Windows" method="probed" conf="10"><cpe>cpe:/o:microsoft:windows</cpe></service></port>
+<port protocol="tcp" portid="443"><state state="closed" reason="reset" reason_ttl="128"/><service name="https" method="table" conf="3"/></port>
+<port protocol="tcp" portid="445"><state state="open" reason="syn-ack" reason_ttl="128"/><service name="microsoft-ds" method="table" conf="3"/></port>
+<port protocol="tcp" portid="464"><state state="open" reason="syn-ack" reason_ttl="128"/><service name="kpasswd5" method="table" conf="3"/></port>
+<port protocol="tcp" portid="587"><state state="closed" reason="reset" reason_ttl="128"/><service name="submission" method="table" conf="3"/></port>
+<port protocol="tcp" portid="593"><state state="open" reason="syn-ack" reason_ttl="128"/><service name="ncacn_http" product="Microsoft Windows RPC over HTTP" version="1.0" ostype="Windows" method="probed" conf="10"><cpe>cpe:/o:microsoft:windows</cpe></service></port>
+<port protocol="tcp" portid="636"><state state="open" reason="syn-ack" reason_ttl="128"/><service name="tcpwrapped" method="probed" conf="8"/></port>
+<port protocol="tcp" portid="3268"><state state="open" reason="syn-ack" reason_ttl="128"/><service name="ldap" product="Microsoft Windows Active Directory LDAP" extrainfo="Domain: lab.local0., Site: Default-First-Site-Name" hostname="DC01" ostype="Windows" method="probed" conf="10"><cpe>cpe:/o:microsoft:windows</cpe></service></port>
+<port protocol="tcp" portid="3269"><state state="open" reason="syn-ack" reason_ttl="128"/><service name="tcpwrapped" method="probed" conf="8"/></port>
+<port protocol="tcp" portid="3306"><state state="closed" reason="reset" reason_ttl="128"/><service name="mysql" method="table" conf="3"/></port>
+<port protocol="tcp" portid="3389"><state state="open" reason="syn-ack" reason_ttl="128"/><service name="ms-wbt-server" product="Microsoft Terminal Services" ostype="Windows" method="probed" conf="10"><cpe>cpe:/o:microsoft:windows</cpe></service></port>
+<port protocol="tcp" portid="5985"><state state="open" reason="syn-ack" reason_ttl="128"/><service name="http" product="Microsoft HTTPAPI httpd" version="2.0" extrainfo="SSDP/UPnP" ostype="Windows" method="probed" conf="10"><cpe>cpe:/o:microsoft:windows</cpe></service></port>
+<port protocol="tcp" portid="9389"><state state="open" reason="syn-ack" reason_ttl="128"/><service name="mc-nmf" product=".NET Message Framing" ostype="Windows" method="probed" conf="10"><cpe>cpe:/o:microsoft:windows</cpe></service></port>
+</ports>
+<times srtt="112" rttvar="31" to="100000"/>
+</host>
+<runstats><finished time="1757642561" timestr="Thu Sep 11 22:02:41 2025" summary="Nmap done at Thu Sep 11 22:02:41 2025; 4 IP addresses (4 hosts up) scanned in 6.77 seconds" elapsed="6.77" exit="success"/><hosts up="4" down="0" total="4"/>
 </runstats>
 </nmaprun>

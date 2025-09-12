@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.95 scan initiated Thu Sep 11 22:29:08 2025 as: /usr/lib/nmap/nmap -&#45;privileged -sS -Pn -n -&#45;max-retries 2 -p 22,25,53,80,110,143,3306 -oX /home/kali/predictive-scanning-lab/scans/smart_192.168.1.101.xml 192.168.1.101 -->
+<nmaprun scanner="nmap" args="/usr/lib/nmap/nmap -&#45;privileged -sS -Pn -n -&#45;max-retries 2 -p 22,25,53,80,110,143,3306 -oX /home/kali/predictive-scanning-lab/scans/smart_192.168.1.101.xml 192.168.1.101" start="1757644148" startstr="Thu Sep 11 22:29:08 2025" version="7.95" xmloutputversion="1.05">
+<scaninfo type="syn" protocol="tcp" numservices="7" services="22,25,53,80,110,143,3306"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<hosthint><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="192.168.1.101" addrtype="ipv4"/>
+<address addr="BC:24:11:BA:EA:12" addrtype="mac" vendor="Proxmox Server Solutions GmbH"/>
+<hostnames>
+</hostnames>
+</hosthint>
+<host starttime="1757644148" endtime="1757644148"><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="192.168.1.101" addrtype="ipv4"/>
+<address addr="BC:24:11:BA:EA:12" addrtype="mac" vendor="Proxmox Server Solutions GmbH"/>
+<hostnames>
+</hostnames>
+<ports><port protocol="tcp" portid="22"><state state="open" reason="syn-ack" reason_ttl="64"/><service name="ssh" method="table" conf="3"/></port>
+<port protocol="tcp" portid="25"><state state="closed" reason="reset" reason_ttl="64"/><service name="smtp" method="table" conf="3"/></port>
+<port protocol="tcp" portid="53"><state state="open" reason="syn-ack" reason_ttl="64"/><service name="domain" method="table" conf="3"/></port>
+<port protocol="tcp" portid="80"><state state="open" reason="syn-ack" reason_ttl="64"/><service name="http" method="table" conf="3"/></port>
+<port protocol="tcp" portid="110"><state state="closed" reason="reset" reason_ttl="64"/><service name="pop3" method="table" conf="3"/></port>
+<port protocol="tcp" portid="143"><state state="closed" reason="reset" reason_ttl="64"/><service name="imap" method="table" conf="3"/></port>
+<port protocol="tcp" portid="3306"><state state="open" reason="syn-ack" reason_ttl="64"/><service name="mysql" method="table" conf="3"/></port>
+</ports>
+<times srtt="189" rttvar="720" to="100000"/>
+</host>
+<runstats><finished time="1757644148" timestr="Thu Sep 11 22:29:08 2025" summary="Nmap done at Thu Sep 11 22:29:08 2025; 1 IP address (1 host up) scanned in 0.20 seconds" elapsed="0.20" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

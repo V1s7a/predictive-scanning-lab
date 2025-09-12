@@ -1,36 +1,59 @@
 import pandas as pd
 from pathlib import Path
 
-root = Path.home()/ "predictive-scan"
-ports = [int(p) for p in root.joinpath("targets/ports.txt").read_text().strip().split(",")]
-targets = [l.strip() for l in root.joinpath("targets/targets.txt").read_text().splitlines() if l.strip()]
-seed_ports = [22,80,443]
+ROOT = Path(__file__).resolve().parents[1]
 
-df = pd.read_csv(root/"results/dataset.csv")            # labels + seed features
-pred = pd.read_csv(root/"results/predicted_pairs.csv")  # predicted (host,port)
+# Inputs
+ports = [int(p) for p in (ROOT/"targets/ports.txt").read_text().strip().split(",")]
+targets = [l.strip() for l in (ROOT/"targets/targets.txt").read_text().splitlines() if l.strip()]
 
-full_probes = len(targets) * len(ports)
-seed_probes = len(targets) * len(seed_ports)
-smart_probes = seed_probes + len(pred)
+# Load seeds dynamically (fallback to classic trio)
+seeds_file = ROOT/"targets/seeds.txt"
+if seeds_file.exists():
+    seed_ports = [int(p) for p in seeds_file.read_text().strip().split(",") if p.strip()]
+else:
+    seed_ports = [22,80,443]
 
-# Found by seed + smart
-seed_df = df[df["port"].isin(seed_ports) & (df["label_open"]==1)]
-smart_df = pd.concat([seed_df,
-                      df.merge(pred[["host","port"]].drop_duplicates(),
-                               on=["host","port"], how="inner")],
-                     ignore_index=True).drop_duplicates()
+# Data
+df   = pd.read_csv(ROOT/"results/dataset.csv")            # one row per (host,port), with label_open
+pred = pd.read_csv(ROOT/"results/predicted_pairs.csv")    # (host,port[,p_open])
 
-total_open = int((df["label_open"]==1).sum())
-found_open = len(smart_df.drop_duplicates(subset=["host","port"]))
-coverage = 100.0 * (found_open / total_open if total_open else 0)
+# --- Probe counts ---
+full_probes  = len(targets) * len(ports)
+seed_probes  = len(targets) * len(seed_ports)
+smart_probes = seed_probes + len(pred)                    # seed stage + predicted stage
 
-ppf_full  = full_probes / max(1,total_open)
-ppf_smart = smart_probes / max(1,found_open)
+# --- True opens in ground truth ---
+open_df = df[df["label_open"] == 1][["host","port"]].drop_duplicates()
+total_open = len(open_df)
+
+# --- Found-by-Seed = opens that are in seed ports ---
+seed_found = open_df[open_df["port"].isin(seed_ports)]
+
+# --- Found-by-Pred = opens that appear in predictions ---
+pred_pairs = pred[["host","port"]].drop_duplicates()
+smart_found = open_df.merge(pred_pairs, on=["host","port"], how="inner")
+
+# Union: Seed ∪ Pred
+found = pd.concat([seed_found, smart_found], ignore_index=True).drop_duplicates()
+found_open = len(found)
+
+coverage = (100.0 * found_open / total_open) if total_open else 0.0
+coverage = min(coverage, 100.0)  # never exceed 100
+
+ppf_full  = full_probes / max(1, total_open)
+ppf_smart = smart_probes / max(1, found_open)
 
 summary = pd.DataFrame([
-    ["Naive-Full", full_probes, total_open, 100.0, round(ppf_full,2)],
-    ["Seed+Smart(ML)", smart_probes, found_open, round(coverage,2), round(ppf_smart,2)]
+    ["Naive-Full",     full_probes,  total_open, round(100.0,2),     round(ppf_full,2)],
+    ["Seed+Smart(ML)", smart_probes, found_open, round(coverage,2),  round(ppf_smart,2)],
 ], columns=["Policy","Probes","Open Found","Coverage %","Probes/Find"])
 
 print(summary.to_string(index=False))
-summary.to_csv(root/"results/summary.csv", index=False)
+summary.to_csv(ROOT/"results/summary.csv", index=False)
+
+# Helpful debug
+print("\n[info] seeds used:", seed_ports)
+print("[info] total (host,port) open =", total_open)
+print("[info] predicted pairs =", len(pred_pairs))
+print("[info] seed_probes =", seed_probes, "smart_probes =", smart_probes, "full_probes =", full_probes)

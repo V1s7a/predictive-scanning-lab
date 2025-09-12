@@ -1,43 +1,77 @@
+# ~/predictive-scanning-lab/scripts/train_predictive.py
 import pandas as pd, numpy as np
 from pathlib import Path
 from sklearn.model_selection import GroupShuffleSplit
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import average_precision_score, roc_auc_score
 
-root = Path.home()/ "predictive-scan"
-df = pd.read_csv(root/"results/dataset.csv")
-X = df[["seed22","seed80","seed443"]].values
+ROOT = Path(__file__).resolve().parents[1]
+df = pd.read_csv(ROOT/"results/dataset.csv")
+
+# auto-detect seed feature columns (works with seed_22_open or old seed22 style)
+seed_cols = [c for c in df.columns if c.startswith("seed_") and c.endswith("_open")]
+if not seed_cols:
+    seed_cols = [c for c in df.columns if c.startswith("seed") and c[4:].isdigit()]
+if not seed_cols:
+    raise SystemExit("No seed features found. Re-run build_dataset.py after you run a seed scan.")
+
 y = df["label_open"].values
-groups = df["host"].values  # split by host to avoid leakage
+groups = df["host"].values
 
-gss = GroupShuffleSplit(n_splits=1, test_size=0.3, random_state=42)
-tr, te = next(gss.split(X, y, groups=groups))
-Xtr, Xte, ytr, yte = X[tr], X[te], y[tr], y[te]
+# split by host (avoid leakage)
+gss = GroupShuffleSplit(n_splits=1, test_size=0.34, random_state=42)
+tr, te = next(gss.split(df[seed_cols].values, y, groups=groups))
+train_df = df.iloc[tr].copy()
+test_df  = df.iloc[te].copy()
 
-model = LogisticRegression(max_iter=1000).fit(Xtr, ytr)
-p = model.predict_proba(Xte)[:,1]
-print("AUC-PR:", round(average_precision_score(yte, p),4),
-      "AUC-ROC:", round(roc_auc_score(yte, p),4))
+# add per-port prior from TRAIN ONLY (gives within-host discrimination)
+port_prior = train_df.groupby("port")["label_open"].mean()
+df["port_prior"] = df["port"].map(port_prior).fillna(0.01)
 
-# Coverage vs Probes curve on test set
+feat_cols = seed_cols + ["port_prior"]
+Xtr = df.loc[train_df.index, feat_cols].values
+Xte = df.loc[test_df.index,  feat_cols].values
+ytr, yte = y[tr], y[te]
+
+model = LogisticRegression(max_iter=2000, class_weight="balanced", solver="lbfgs", random_state=42)
+model.fit(Xtr, ytr)
+
+# test-set metrics
+pte = model.predict_proba(Xte)[:,1]
+print("Features used:", feat_cols)
+print("AUC-PR:", round(average_precision_score(yte, pte),4),
+      "AUC-ROC:", round(roc_auc_score(yte, pte),4))
+
+# coverage vs probes (test set)
 rows=[]; total_open = int((yte==1).sum())
 for tau in np.linspace(0.10,0.90,17):
-    sel = p >= tau
+    sel = pte >= tau
     probes = int(sel.sum())
     tp = int(((sel==True) & (yte==1)).sum())
-    coverage = 100.0 * (tp / total_open if total_open else 0)
-    ppf = probes / tp if tp else float('inf')
-    rows.append({"tau": round(tau,2), "probes": probes, "coverage%": round(coverage,2), "probes_per_finding": round(ppf,2)})
-curves = pd.DataFrame(rows); print("\nCoverage vs Probes on test set:"); print(curves)
+    cov = 100.0*(tp/total_open if total_open else 0.0)
+    ppf = probes/max(1,tp)
+    rows.append({"tau":round(tau,2),"probes":probes,"coverage%":round(cov,2),"probes_per_finding":round(ppf,2)})
+curve = pd.DataFrame(rows)
+print("\nCoverage vs Probes (test set):\n", curve.to_string(index=False))
 
-# Choose τ near ~98% coverage if available
-target=98.0
-candidates = curves[curves["coverage%"]>=target]
-rec_tau = float(candidates.sort_values("probes").tau.iloc[0]) if not candidates.empty else float(curves.sort_values("coverage%", ascending=False).tau.iloc[0])
+# choose tau (aim for ~98% coverage if possible)
+target = float((ROOT/"results/coverage_target.txt").read_text().strip()) if (ROOT/"results/coverage_target.txt").exists() else 98.0
+cands = curve[curve["coverage%"] >= target]
+rec_tau = float(cands.sort_values("probes").tau.iloc[0]) if not cands.empty else float(curve.sort_values("coverage%", ascending=False).tau.iloc[0])
 print("\nRecommended tau:", rec_tau)
 
-# Predict for ALL rows using chosen τ → this is your "smart" scan list
-df["p_open"] = model.predict_proba(df[["seed22","seed80","seed443"]])[:,1]
-pred = df[df["p_open"] >= rec_tau].copy()
-pred.to_csv(root/"results/predicted_pairs.csv", index=False)
-print("Predicted pairs with tau=", rec_tau, ":", len(pred))
+# ---- compute probabilities for ALL rows (this defines p_all!) ----
+p_all = model.predict_proba(df[feat_cols])[:,1]
+
+# write default predicted pairs using chosen tau (will be overwritten if you do top-K)
+out = df.loc[:, ["host","port"]].copy()
+out["p_open"] = p_all
+pred = out[out["p_open"] >= rec_tau].copy()
+pred.to_csv(ROOT/"results/predicted_pairs.csv", index=False)
+print("Predicted pairs:", len(pred), "->", ROOT/"results/predicted_pairs.csv")
+
+# also write ALL probs so you can do budgeted selection (top-K/τ)
+df_all = df.loc[:, ["host","port"]].copy()
+df_all["p_open"] = p_all
+df_all.to_csv(ROOT/"results/all_probs.csv", index=False)
+print("Wrote all probs ->", ROOT/"results/all_probs.csv")
