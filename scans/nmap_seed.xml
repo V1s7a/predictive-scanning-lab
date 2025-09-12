@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.95 scan initiated Thu Sep 11 19:57:39 2025 as: /usr/lib/nmap/nmap -&#45;privileged -sS -sV -Pn -p22,80,443 -iL targets/targets.txt -oX scans/nmap_seed.xml -->
+<nmaprun scanner="nmap" args="/usr/lib/nmap/nmap -&#45;privileged -sS -sV -Pn -p22,80,443 -iL targets/targets.txt -oX scans/nmap_seed.xml" start="1757635059" startstr="Thu Sep 11 19:57:39 2025" version="7.95" xmloutputversion="1.05">
+<scaninfo type="syn" protocol="tcp" numservices="3" services="22,80,443"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<hosthint><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="192.168.1.101" addrtype="ipv4"/>
+<address addr="BC:24:11:BA:EA:12" addrtype="mac" vendor="Proxmox Server Solutions GmbH"/>
+<hostnames>
+</hostnames>
+</hosthint>
+<hosthint><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="192.168.1.102" addrtype="ipv4"/>
+<address addr="BC:24:11:7F:93:E4" addrtype="mac" vendor="Proxmox Server Solutions GmbH"/>
+<hostnames>
+</hostnames>
+</hosthint>
+<hosthint><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="192.168.1.103" addrtype="ipv4"/>
+<address addr="BC:24:11:F0:38:E3" addrtype="mac" vendor="Proxmox Server Solutions GmbH"/>
+<hostnames>
+</hostnames>
+</hosthint>
+<host starttime="1757635059" endtime="1757635065"><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="192.168.1.101" addrtype="ipv4"/>
+<address addr="BC:24:11:BA:EA:12" addrtype="mac" vendor="Proxmox Server Solutions GmbH"/>
+<hostnames>
+</hostnames>
+<ports><port protocol="tcp" portid="22"><state state="open" reason="syn-ack" reason_ttl="64"/><service name="ssh" product="OpenSSH" version="9.9p1 Ubuntu 3ubuntu3.2" extrainfo="Ubuntu Linux; protocol 2.0" ostype="Linux" method="probed" conf="10"><cpe>cpe:/a:openbsd:openssh:9.9p1</cpe><cpe>cpe:/o:linux:linux_kernel</cpe></service></port>
+<port protocol="tcp" portid="80"><state state="open" reason="syn-ack" reason_ttl="64"/><service name="http" product="nginx" version="1.26.3" extrainfo="Ubuntu" ostype="Linux" method="probed" conf="10"><cpe>cpe:/a:igor_sysoev:nginx:1.26.3</cpe><cpe>cpe:/o:linux:linux_kernel</cpe></service></port>
+<port protocol="tcp" portid="443"><state state="closed" reason="reset" reason_ttl="64"/><service name="https" method="table" conf="3"/></port>
+</ports>
+<times srtt="161" rttvar="2164" to="100000"/>
+</host>
+<host starttime="1757635059" endtime="1757635059"><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="192.168.1.102" addrtype="ipv4"/>
+<address addr="BC:24:11:7F:93:E4" addrtype="mac" vendor="Proxmox Server Solutions GmbH"/>
+<hostnames>
+</hostnames>
+<ports><port protocol="tcp" portid="22"><state state="closed" reason="reset" reason_ttl="128"/><service name="ssh" method="table" conf="3"/></port>
+<port protocol="tcp" portid="80"><state state="closed" reason="reset" reason_ttl="128"/><service name="http" method="table" conf="3"/></port>
+<port protocol="tcp" portid="443"><state state="closed" reason="reset" reason_ttl="128"/><service name="https" method="table" conf="3"/></port>
+</ports>
+<times srtt="213" rttvar="2172" to="100000"/>
+</host>
+<host starttime="1757635059" endtime="1757635065"><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="192.168.1.103" addrtype="ipv4"/>
+<address addr="BC:24:11:F0:38:E3" addrtype="mac" vendor="Proxmox Server Solutions GmbH"/>
+<hostnames>
+</hostnames>
+<ports><port protocol="tcp" portid="22"><state state="open" reason="syn-ack" reason_ttl="64"/><service name="ssh" product="OpenSSH" version="9.6p1 Ubuntu 3ubuntu13.14" extrainfo="Ubuntu Linux; protocol 2.0" ostype="Linux" method="probed" conf="10"><cpe>cpe:/a:openbsd:openssh:9.6p1</cpe><cpe>cpe:/o:linux:linux_kernel</cpe></service></port>
+<port protocol="tcp" portid="80"><state state="closed" reason="reset" reason_ttl="64"/><service name="http" method="table" conf="3"/></port>
+<port protocol="tcp" portid="443"><state state="closed" reason="reset" reason_ttl="64"/><service name="https" method="table" conf="3"/></port>
+</ports>
+<times srtt="310" rttvar="2256" to="100000"/>
+</host>
+<runstats><finished time="1757635065" timestr="Thu Sep 11 19:57:45 2025" summary="Nmap done at Thu Sep 11 19:57:45 2025; 3 IP addresses (3 hosts up) scanned in 6.40 seconds" elapsed="6.40" exit="success"/><hosts up="3" down="0" total="3"/>
+</runstats>
+</nmaprun>
