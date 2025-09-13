@@ -14,7 +14,7 @@ Full port sweeps are simple but noisy: they probe **every** port on **every** ho
 3. **Select** only the most useful probes under a fixed **budget**, with **risk-aware** preferences (e.g., AD/DC ports on a domain controller, TLS mail ports on a mail server).
 4. **Scan smart** and measure **coverage** vs **probe count**.
 
-The goal is not “fancy ML”, but a **tunable policy** that reduces scan volume without losing important findings—very purple-team friendly.
+The goal is not “fancy ML”, but a **tunable policy** that reduces scan volume without losing important findings, small test environment.
 
 ---
 
@@ -26,10 +26,10 @@ The goal is not “fancy ML”, but a **tunable policy** that reduces scan volum
 
 * **Targets (4 hosts)**
 
-  * `192.168.1.101` — Linux (web/db)
-  * `192.168.1.102` — Windows (SMB/RDP/WinRM)
-  * `192.168.1.103` — Mail (SMTP/POP/IMAP + TLS)
-  * `192.168.1.104` — **AD DS** Domain Controller (Kerberos/LDAP/GC/ADWS, etc.)
+  * `192.168.1.101` — Ubuntu Server 25.04 (web/db)
+  * `192.168.1.102` — Windows Server 2022 (SMB/RDP/WinRM)
+  * `192.168.1.103` — Ubuntu Server 24.04 Mail (SMTP/POP/IMAP + TLS)
+  * `192.168.1.104` — **AD DS** Windows Server 2022 Domain Controller (Kerberos/LDAP/GC/ADWS, etc.)
 
 * **Port universe (22 ports)**
   Mix of common services and Windows/AD:
@@ -39,7 +39,7 @@ The goal is not “fancy ML”, but a **tunable policy** that reduces scan volum
 
 ## 3) Metrics We Report
 
-* **Probes:** number of (host,port) checks sent.
+* **Probes:** number of (host, port) checks sent.
 * **Opens Found:** count of true open services discovered.
 * **Coverage:** Opens Found / Total Opens (from one-time ground truth).
 * **Probes/Find:** efficiency (smaller is better).
@@ -97,15 +97,13 @@ echo '22,80,443,445' > targets/seeds.txt
 We need a fixed “answer key” for Coverage.
 
 ```bash
-nmap -sS -sV -Pn -p$(cat targets/ports.txt) -iL targets/targets.txt \
-  -oX scans/nmap_groundtruth_all.xml
+nmap -sS -sV -Pn -p$(cat targets/ports.txt) -iL targets/targets.txt -oX scans/nmap_groundtruth_all.xml
 ```
 
 ### C) Seed Scan (fast)
 
 ```bash
-nmap -sS -sV -Pn -p$(cat targets/seeds.txt) -iL targets/targets.txt \
-  -oX scans/nmap_seed.xml
+nmap -sS -sV -Pn -p$(cat targets/seeds.txt) -iL targets/targets.txt -oX scans/nmap_seed.xml
 ```
 
 ### D) Build Dataset & Train
@@ -199,9 +197,6 @@ print("Predicted pairs (final):", len(pred2))
 PY
 ```
 
-> **About `docs/selectors/`:** this README shows **inline** versions for convenience.
-> If you prefer saving files, create `docs/selectors/select_weighted.py` and `docs/selectors/select_must_trim.py` with the snippets above and run them with `python3`.
-
 ### F) Smart Scan & Metrics
 
 This executes seeds + predicted pairs and writes a summary CSV.
@@ -285,4 +280,4 @@ cat results/summary.csv
 **Notes**
 
 * This README is meant to be practical and reproducible. All selection logic is CSV-driven—you can swap your own targets, ports, and weights without touching training code.
-* If you prefer files over inline blocks, create a `docs/selectors/` (or `scripts/`) folder and drop the selection snippets there.
+
