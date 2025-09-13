@@ -1,25 +1,18 @@
 #!/usr/bin/env bash
 # smart_scan.sh — run Nmap ONLY on ML-predicted (host,port) pairs
-# Repo layout assumed:
-#   ~/predictive-scanning-lab/
-#     ├── results/predicted_pairs.csv   (from train_predictive.py)
-#     ├── scans/                        (smart_<host>.xml goes here)
-#     └── scripts/smart_scan.sh         (this file)
+# This script reads predicted host/port pairs from a CSV file,
+# builds per-host port lists, and runs Nmap scans only on those pairs.
+# Optionally, it can capture traffic with tcpdump for each scan.
 
 set -euo pipefail
 
 # Resolve repo root no matter where this script is run from
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-PRED="$ROOT/results/predicted_pairs.csv"
-OUTDIR="$ROOT/scans"
-PORTLISTS="$ROOT/results/smart_portlists.txt"
+PRED="$ROOT/results/predicted_pairs.csv"      # CSV of predicted (host,port) pairs
+OUTDIR="$ROOT/scans"                          # Directory to save scan results
+PORTLISTS="$ROOT/results/smart_portlists.txt" # Per-host port lists
 
-# Optional env overrides:
-#   NMAP_BIN=/usr/bin/nmap
-#   NMAP_OPTS="-sS -Pn -n --max-retries 2 --host-timeout 30s"
-#   SERVICE_DETECTION=1      # adds -sV
-#   CAPTURE=1                # tcpdump a pcap per host
-#   IFACE=eth0               # capture interface (auto-detected if unset)
+# Optional environment overrides for Nmap and capture settings
 NMAP_BIN="${NMAP_BIN:-nmap}"
 NMAP_OPTS="${NMAP_OPTS:--sS -Pn -n --max-retries 2}"
 
@@ -27,16 +20,17 @@ if [[ "${SERVICE_DETECTION:-0}" == "1" ]]; then
   NMAP_OPTS="$NMAP_OPTS -sV"
 fi
 
-# Preconditions
+# Check that predicted_pairs.csv exists and is not empty
 if [[ ! -s "$PRED" ]]; then
   echo "ERROR: $PRED not found or empty. Run: python3 scripts/train_predictive.py" >&2
   exit 1
 fi
 
+# Create necessary directories
 mkdir -p "$OUTDIR" "$ROOT/targets" "$ROOT/results" "$ROOT/pcaps"
 
-# Build per-host comma port lists from predicted_pairs.csv (expects header with host,port)
-# Output format (one per line):  <host>:p1,p2,p3
+# Build per-host comma-separated port lists from predicted_pairs.csv
+# Output format: <host>:p1,p2,p3
 tr -d '\r' < "$PRED" \
   | awk -F, 'NR>1 && $1!="" && $2!="" {print $1","$2}' \
   | sort -t, -k1,1 -k2,2n | uniq \
@@ -50,7 +44,7 @@ fi
 
 echo "[*] Built port lists -> $PORTLISTS"
 
-# If capturing, determine interface if not provided
+# If capturing packets, determine network interface if not provided
 if [[ "${CAPTURE:-0}" == "1" && -z "${IFACE:-}" ]]; then
   IFACE="$(ip -o -4 route show to default | awk '{print $5}' | head -n1)"
   export IFACE
@@ -63,8 +57,8 @@ fi
 # Scan each host with its predicted ports
 while IFS= read -r line; do
   [[ -z "$line" ]] && continue
-  host="${line%%:*}"
-  ports="${line#*:}"
+  host="${line%%:*}"         # Extract host
+  ports="${line#*:}"         # Extract port list
   ports="${ports#,}"; ports="${ports%,}"
 
   if [[ -z "$ports" ]]; then
@@ -72,7 +66,7 @@ while IFS= read -r line; do
     continue
   fi
 
-  xml="$OUTDIR/smart_${host}.xml"
+  xml="$OUTDIR/smart_${host}.xml"   # Output XML file for scan results
   echo "[*] Scanning $host  ports: $ports"
   if [[ "${CAPTURE:-0}" == "1" ]]; then
     pcap="$ROOT/pcaps/smart_${host}.pcap"
